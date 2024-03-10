@@ -188,7 +188,8 @@ def safe_save_model_for_hf_trainer(trainer: transformers.Trainer,
 
     if getattr(trainer.args, "tune_mm_mlp_adapter", False):
         # Only save Adapter
-        keys_to_match = ['mm_projector']
+        # moe模块权重保存，多加一个match
+        keys_to_match = ['mm_projector', 'gate.', 'experts']
         if getattr(trainer.args, "use_im_start_end", False):
             keys_to_match.extend(['embed_tokens', 'embed_in'])
 
@@ -925,9 +926,24 @@ def train(attn_implementation=None):
 
         model.config.tune_mm_mlp_adapter = training_args.tune_mm_mlp_adapter = model_args.tune_mm_mlp_adapter
         if model_args.tune_mm_mlp_adapter:
+            # pretrain stage
             model.requires_grad_(False)
             for p in model.get_model().mm_projector.parameters():
                 p.requires_grad = True
+
+            for name, param in model.get_model().vision_tower.vision_tower.vision_model.encoder.named_parameters():
+                if 'mlp' in name:
+                    param.requires_grad = True
+
+        else:
+            # finetune stage
+            # llm、mm_projector以及视觉编码器的gate和experts设置为trainable
+            model.requires_grad_(True)
+            model.get_model().vision_tower.requires_grad_(False)
+            for name, param in model.get_model().vision_tower.vision_tower.vision_model.encoder.named_parameters():
+                if 'mlp' in name:
+                    param.requires_grad = True
+            
 
         model.config.freeze_mm_mlp_adapter = training_args.freeze_mm_mlp_adapter
         if training_args.freeze_mm_mlp_adapter:

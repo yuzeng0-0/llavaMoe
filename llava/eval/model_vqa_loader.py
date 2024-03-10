@@ -14,7 +14,7 @@ from torch.utils.data import Dataset, DataLoader
 
 from PIL import Image
 import math
-
+import pdb
 
 def split_list(lst, n):
     """Split a list into n (roughly) equal-sized chunks"""
@@ -126,6 +126,7 @@ def eval_model(args):
     ans_file.close()
 
 if __name__ == "__main__":
+    # pdb.set_trace()
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-path", type=str, default="facebook/opt-350m")
     parser.add_argument("--model-base", type=str, default=None)

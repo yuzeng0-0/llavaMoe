@@ -154,7 +154,8 @@ def load_pretrained_model(model_path, model_base, model_name, load_8bit=False, l
 
         vision_tower = model.get_vision_tower()
         if not vision_tower.is_loaded:
-            vision_tower.load_model(device_map=device_map)
+            # vision_tower.load_model(device_map=device_map) got an unexpected keyword argument 'device_map'
+            vision_tower.load_model(eval_load_path=model_path)
         if device_map != 'auto':
             vision_tower.to(device=device_map, dtype=torch.float16)
         image_processor = vision_tower.image_processor
