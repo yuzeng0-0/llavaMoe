@@ -126,7 +126,7 @@ def eval_model(args):
     ans_file.close()
 
 if __name__ == "__main__":
-    # pdb.set_trace()
+    pdb.set_trace()
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-path", type=str, default="facebook/opt-350m")
     parser.add_argument("--model-base", type=str, default=None)

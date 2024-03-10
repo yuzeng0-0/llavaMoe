@@ -47,8 +47,8 @@ class CLIPVisionTower(nn.Module):
         original_pretrain_dict = torch.load("data/pretrained/eva02_large_patch14_clip_336.merged2b_s6b_b61k/open_clip_pytorch_model.bin", map_location=torch.device('cpu'))
         mlp_pretrain_dict = {'vision_model.encoder.layers.' + k.split('mlp.')[0].split('visual.trunk.blocks.')[1] + 'mlp.experts.3.' + k.split('mlp.')[1] : v for k, v in original_pretrain_dict.items() if 'mlp' in k and 'visual' in k }
         self.vision_tower.load_state_dict(mlp_pretrain_dict, strict=False)
-        # del original_pretrain_dict
-        # del mlp_pretrain_dict
+        del original_pretrain_dict
+        del mlp_pretrain_dict
 
 
     def load_pretrain_stage_MoE(self):

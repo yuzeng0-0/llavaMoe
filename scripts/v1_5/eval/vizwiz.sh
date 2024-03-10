@@ -1,7 +1,7 @@
 #!/bin/bash
 
 python -m llava.eval.model_vqa_loader \
-    --model-path ./checkpoints/llava-v1.5-13b_debug \
+    --model-path ./checkpoints/llava-v1.5-13b \
     --question-file ./data/data/eval/viswiz/test.json \
     --image-folder ./data/data/eval/viswiz/test \
     --answers-file ./playground/eval/vizwiz/answers/llava-v1.5-13b-Moe.jsonl \

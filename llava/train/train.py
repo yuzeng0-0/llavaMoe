@@ -934,6 +934,10 @@ def train(attn_implementation=None):
             for name, param in model.get_model().vision_tower.vision_tower.vision_model.encoder.named_parameters():
                 if 'mlp' in name:
                     param.requires_grad = True
+            
+            # pretrain 阶段视觉编码器全部打开
+            # for p in model.get_model().vision_tower.parameters():
+            #     p.requires_grad = True
 
         else:
             # finetune stage

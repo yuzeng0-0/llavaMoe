@@ -13,7 +13,7 @@ torchrun --nnodes 1 --nproc_per_node 8 --node_rank $SLURM_NODEID llava/train/tra
     --mm_use_im_start_end False \
     --mm_use_im_patch_token False \
     --bf16 True \
-    --output_dir ./checkpoints/llava-v1.5-7b-pretrain \
+    --output_dir ./checkpoints/llava-v1.5-7b-pretrain_vit_all_train \
     --num_train_epochs 1 \
     --per_device_train_batch_size 32 \
     --per_device_eval_batch_size 4 \
